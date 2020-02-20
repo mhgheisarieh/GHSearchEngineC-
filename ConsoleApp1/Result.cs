@@ -6,6 +6,12 @@
 {
     public class Result
     {
+
+        /**
+         * <param index : index of document> </param>
+         * <param score : score of document> </param>
+         */
+
         private int index;
         private int score;
 

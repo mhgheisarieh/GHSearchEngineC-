@@ -11,7 +11,6 @@ namespace GHSearchEngine
         {
             String strToTest = Console.ReadLine();
             String[] strings =  Splitter.split(strToTest);
-            //Console.WriteLine(strings);
             foreach (String sss in strings)
                 Console.WriteLine(sss);
         }
