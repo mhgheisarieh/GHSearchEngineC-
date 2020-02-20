@@ -11,7 +11,7 @@ namespace GHSearchEngine
 
         public static String[] split(string stringToParse)
         {
-            return Regex.Split(stringToParse, REGEX);
+            return Regex.Split(stringToParse, @REGEX);
         }
     }
 }

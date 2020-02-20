@@ -9,7 +9,11 @@ namespace GHSearchEngine
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            String strToTest = Console.ReadLine();
+            String[] strings =  Splitter.split(strToTest);
+            //Console.WriteLine(strings);
+            foreach (String sss in strings)
+                Console.WriteLine(sss);
         }
     }
 }
