@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3CB21144-7383-4DC3-B508-DC0D07DEDBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GHSearchEngine", "ConsoleApp1\GHSearchEngine.csproj", "{3CB21144-7383-4DC3-B508-DC0D07DEDBC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

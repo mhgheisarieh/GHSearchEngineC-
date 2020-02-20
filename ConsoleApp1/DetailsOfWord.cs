@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConsoleApp1
+namespace GHSearchEngine
 {
     /**
      * contains a word and indexes of documents which has the word as key and number of rematches in values
