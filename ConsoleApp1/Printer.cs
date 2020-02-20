@@ -7,7 +7,7 @@ namespace GHSearchEngine
     {
         void IPrintable.printResults(List<string> documents, List<Result> results)
         {
-            throw new NotImplementedException();
+            results.ForEach((result) => Console.WriteLine(result.getScore() + "     " + documents[result.getIndex()]));
         }
     }
 }

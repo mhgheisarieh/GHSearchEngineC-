@@ -15,23 +15,23 @@
         private int index;
         private int score;
 
-        Result(int index, int score)
+        public Result(int index, int score)
         {
             this.index = index;
             this.score = score;
         }
 
-        void changeScore(int change)
+        public void changeScore(int change)
         {
             this.score += change;
         }
 
-        int getIndex()
+        public int getIndex()
         {
             return index;
         }
 
-        int getScore()
+        public int getScore()
         {
             return score;
         }
