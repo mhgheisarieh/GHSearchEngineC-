@@ -20,7 +20,7 @@ namespace GHSearchEngine
             while (true)
             {
                 String query = Console.ReadLine();
-                this.printer.printResults(documentHolder.getDocuments(), new Processor().processQuery(query));
+                //this.printer.printResults(documentHolder.getDocuments(), new Processor().processQuery(query));
             }
         }
 

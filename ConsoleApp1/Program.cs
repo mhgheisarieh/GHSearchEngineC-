@@ -7,12 +7,13 @@ namespace GHSearchEngine
 
     class Program
     {
+
+        private static String FILE_NAME = "English.csv";
+
         static void Main(string[] args)
         {
-            String strToTest = Console.ReadLine();
-            String[] strings =  Splitter.split(strToTest);
-            foreach (String sss in strings)
-                Console.WriteLine(sss);
+            DocumentHolder documentHolder = new DocumentHolder(new CSVFileReader().readCSVFile(FILE_NAME));
+            //PreProcessedData.getInstance().setDetailsOfWordHashMap(PreProcessor)
         }
     }
 }

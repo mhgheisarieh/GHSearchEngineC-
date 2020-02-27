@@ -8,7 +8,7 @@ namespace GHSearchEngine
     {
         private List<String> documents;
 
-        DocumentHolder(List<String> documents)
+        public DocumentHolder(List<String> documents)
         {
             this.documents = documents;
         }
