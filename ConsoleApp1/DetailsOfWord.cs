@@ -21,7 +21,7 @@ namespace GHSearchEngine
          */
         private Dictionary<int, int> indexInDoc;
 
-        DetailsOfWord(String word)
+        public DetailsOfWord(String word)
         {
             this.word = word;
             this.numOfWordInDocs = new Dictionary<int, int>();
