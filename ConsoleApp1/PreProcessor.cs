@@ -27,7 +27,7 @@ namespace GHSearchEngine
             {
                if (detailsOfWordDictionary.ContainsKey(word))
                 {
-                    setWordDetail(indexOfDoc, indexOfWord, detailsOfWordHashMap.get(word));
+                    setWordDetail(indexOfDoc, indexOfWord, detailsOfWordDictionary[word]);
                 }
                 else
                 {

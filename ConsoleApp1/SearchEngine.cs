@@ -9,18 +9,18 @@ namespace GHSearchEngine
         private DocumentHolder documentHolder;
         private IPrintable printer;
 
-        SearchEngine(DocumentHolder documentHolder, IPrintable printer)
+        public SearchEngine(DocumentHolder documentHolder, IPrintable printer)
         {
             this.documentHolder = documentHolder;
             this.printer = printer;
         }
 
-        void query()
+        public void query()
         {
             while (true)
             {
                 String query = Console.ReadLine();
-                //this.printer.printResults(documentHolder.getDocuments(), new Processor().processQuery(query));
+                this.printer.printResults(documentHolder.getDocuments(), new Processor().processQuery(query));
             }
         }
 

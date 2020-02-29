@@ -9,9 +9,43 @@ namespace GHSearchEngine
         public static int PROXIMITY_MAX_DISTANCE = 5;
         private Dictionary<int, Result> results = new Dictionary<int, Result>();
 
-        Processor()
+        public Processor()
         {
             Console.WriteLine("GH Search Engine\nSearch Results:");
+        }
+
+        internal List<Result> processQuery(string query)
+        {
+            String[] wordsToFind = extractQueryWords(query);
+            fillResults(wordsToFind);
+            setResultsScore(wordsToFind);
+           // proximityFilter(wordsToFind);
+            //return getSortedResult();
+            return null;
+        }
+
+        private String[] extractQueryWords(String query)
+        {
+            return Splitter.split(query);
+        }
+
+        private void fillResults(String[] wordsToFind)
+        {
+            List<int> foundDocs = findAllMatches(wordsToFind);
+            if (foundDocs != null)
+                foundDocs.ForEach(docIndex=>results.Add(docIndex, new Result(docIndex, 0)));
+        }
+
+        private void setResultsScore(String[] wordsToFind)
+        {
+            foreach (String word in wordsToFind)
+            {
+                foreach (int docIndex in results.Keys)
+                {
+                    int score = PreProcessedData.getInstance().getDetailsOfWordHashMap()[word].getNumOfWordInDocs()[docIndex];
+                    results[docIndex].changeScore(score);
+                }
+            }
         }
 
         private static List<int> retainArray(List<int> list_1, List<int> list_2)
@@ -54,10 +88,12 @@ namespace GHSearchEngine
 
         private List<int> getFoundDocsIndexForWord(String word)
         {
-            /*DetailsOfWord detailsOfWord = PreProcessedData.getInstance().getDetailsOfWordHashMap().get(word);
-            if (detailsOfWord != null)
-                return new List<int>(detailsOfWord.getNumOfWordInDocs().keySet());
-            else*/
+            if (PreProcessedData.getInstance().getDetailsOfWordHashMap().ContainsKey(word))
+            {
+                DetailsOfWord detailsOfWord = PreProcessedData.getInstance().getDetailsOfWordHashMap()[word];
+                return new List<int>(detailsOfWord.getNumOfWordInDocs().Keys);
+            }
+            else
                 return null;
         }
 
