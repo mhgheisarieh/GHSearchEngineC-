@@ -13,7 +13,7 @@ namespace GHSearchEngine
             string[] lines = System.IO.File.ReadAllLines(@filename);
             foreach (String line in lines)
             {
-                String now_line = Regex.Split("","")[1];
+                String now_line = Regex.Split(line , "\",\"")[1];
                 now_line = now_line.Substring(0 , now_line.Length - 1);
                 documents.Add(now_line);
             }

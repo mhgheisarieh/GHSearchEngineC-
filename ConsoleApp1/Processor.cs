@@ -19,9 +19,17 @@ namespace GHSearchEngine
             String[] wordsToFind = extractQueryWords(query);
             fillResults(wordsToFind);
             setResultsScore(wordsToFind);
-           // proximityFilter(wordsToFind);
-            //return getSortedResult();
-            return null;
+            proximityFilter(wordsToFind);
+            return getSortedResult();
+        }
+
+        private List<Result> getSortedResult()
+        {
+            List<Result> result = new List<Result>(results.Values);
+            ResultComparator resultComparator = new ResultComparator();
+            result.Sort(resultComparator);
+            
+            return result;
         }
 
         private String[] extractQueryWords(String query)
@@ -47,6 +55,29 @@ namespace GHSearchEngine
                 }
             }
         }
+
+        private void proximityFilter(String[] words)
+        {
+            List<int> toBeRemovedDocs = new List<int>();
+            Dictionary<String, DetailsOfWord> details = PreProcessedData.getInstance().getDetailsOfWordHashMap();
+            foreach (int docIndex in results.Keys)
+            {
+                for (int i = 0; i < words.Length - 1; i++)
+                {
+                    int firstIndex = details[words[i]].getIndexInDoc()[docIndex];
+                    int secondIndex = details[words[i + 1]].getIndexInDoc()[docIndex];
+                    if (Math.Abs(firstIndex - secondIndex) > PROXIMITY_MAX_DISTANCE)
+                    {
+                        toBeRemovedDocs.Add(docIndex);
+                    }
+                }
+            }
+            foreach (var docIndex in toBeRemovedDocs)
+            {
+                results.Remove(docIndex);
+            }
+        }
+
 
         private static List<int> retainArray(List<int> list_1, List<int> list_2)
         {

@@ -8,7 +8,7 @@ namespace GHSearchEngine
     class Program
     {
 
-        private static String FILE_NAME = "English.csv";
+        private static String FILE_NAME = "../../../English.csv";
 
         static void Main(string[] args)
         {
