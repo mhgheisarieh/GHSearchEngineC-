@@ -6,17 +6,17 @@ using System.Text;
 
 namespace GHSearchEngine
 {
-    class SqlServerConnector
+    class SqlServerReader
     {
-        public void connectToServer()
+        public List<String> readData()
         {
+            List<String> documents = new List<string>();
             DataTable textTable = extraceDataFromDatabase();
             foreach (DataRow row in textTable.Rows)
             {
-                Console.WriteLine(row["\"Text\""]);
+                documents.Add(row["\"Text\""].ToString());
             }
-            Console.WriteLine("All done. Press any key to finish...");
-            Console.ReadKey(true);
+            return documents;
         }
 
         private static DataTable extraceDataFromDatabase()

@@ -7,7 +7,7 @@ namespace GHSearchEngine
 {
     class CSVFileReader
     {
-        public List<String> readCSVFile(String filename)
+        internal List<String> readCSVFile(String filename)
         {
             List<String> documents = new List<string>();
             string[] lines = System.IO.File.ReadAllLines(@filename);
