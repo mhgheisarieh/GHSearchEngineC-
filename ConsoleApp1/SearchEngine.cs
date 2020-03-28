@@ -15,12 +15,12 @@ namespace GHSearchEngine
             this.printer = printer;
         }
 
-        public void query()
+        public void Query()
         {
             while (true)
             {
                 String query = Console.ReadLine();
-                this.printer.printResults(documentHolder.getDocuments(), new Processor().processQuery(query));
+                this.printer.PrintResults(documentHolder.GetDocuments(), new Processor().ProcessQuery(query));
             }
         }
 

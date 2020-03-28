@@ -9,7 +9,7 @@ namespace GHSearchEngine
         private static PreProcessedData ourInstance = new PreProcessedData();
         private Dictionary<String, DetailsOfWord> detailsOfWordHashMap;
 
-        public static PreProcessedData getInstance()
+        public static PreProcessedData GetInstance()
         {
             return ourInstance;
         }
@@ -18,12 +18,12 @@ namespace GHSearchEngine
         {
         }
 
-        public Dictionary<String, DetailsOfWord> getDetailsOfWordHashMap()
+        public Dictionary<String, DetailsOfWord> GetDetailsOfWordHashMap()
         {
             return detailsOfWordHashMap;
         }
 
-        public void setDetailsOfWordHashMap(Dictionary<String, DetailsOfWord> detailsOfWordHashMap)
+        public void SetDetailsOfWordHashMap(Dictionary<String, DetailsOfWord> detailsOfWordHashMap)
         {
             this.detailsOfWordHashMap = detailsOfWordHashMap;
         }

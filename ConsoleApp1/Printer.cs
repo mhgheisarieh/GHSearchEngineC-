@@ -5,9 +5,9 @@ namespace GHSearchEngine
 {
     class Printer : IPrintable
     {
-        void IPrintable.printResults(List<string> documents, List<Result> results)
+        void IPrintable.PrintResults(List<string> documents, List<Result> results)
         {
-            results.ForEach((result) => Console.WriteLine(result.getScore() + "     " + documents[result.getIndex()]));
+            results.ForEach((result) => Console.WriteLine(result.GetScore() + "     " + documents[result.GetIndex()]));
         }
     }
 }

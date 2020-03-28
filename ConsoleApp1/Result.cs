@@ -21,17 +21,17 @@
             this.score = score;
         }
 
-        public void changeScore(int change)
+        public void ChangeScore(int change)
         {
             this.score += change;
         }
 
-        public int getIndex()
+        public int GetIndex()
         {
             return index;
         }
 
-        public int getScore()
+        public int GetScore()
         {
             return score;
         }

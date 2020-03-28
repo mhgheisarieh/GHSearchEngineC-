@@ -8,7 +8,7 @@ namespace GHSearchEngine
 
         private static String FILE_NAME = "../../../English.csv";
 
-        internal List<string> selectAndGetDataSource()
+        internal List<string> SelectAndGetDataSource()
         {
             Console.WriteLine("Please Choose your input:");
             Console.WriteLine("1. CSV Excel File");
@@ -17,11 +17,11 @@ namespace GHSearchEngine
             List<string> data;
             if (inputType == "1")
             {
-                 data =  new CSVFileReader().readCSVFile(FILE_NAME);
+                 data =  new CSVFileReader().ReadCSVFile(FILE_NAME);
             }
             else
             {
-                data =  new SqlServerReader().readData();
+                data =  new SqlServerReader().ReadData();
             }
             Console.WriteLine("All done. Press any key to start GH Search Engine.");
             Console.ReadKey(true);

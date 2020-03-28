@@ -8,10 +8,10 @@ namespace GHSearchEngine
 {
     class SqlServerReader
     {
-        public List<String> readData()
+        public List<String> ReadData()
         {
             List<String> documents = new List<string>();
-            DataTable textTable = extraceDataFromDatabase();
+            DataTable textTable = ExtractDataFromDatabase();
             foreach (DataRow row in textTable.Rows)
             {
                 documents.Add(row["\"Text\""].ToString());
@@ -19,10 +19,10 @@ namespace GHSearchEngine
             return documents;
         }
 
-        private static DataTable extraceDataFromDatabase()
+        private static DataTable ExtractDataFromDatabase()
         {
             DataTable textTable;
-            SqlConnectionStringBuilder builder = buildSqlConnectioStringBuilder();
+            SqlConnectionStringBuilder builder = BuildSqlConnectioStringBuilder();
             SqlConnection connection = new SqlConnection(builder.ConnectionString);
             connection.Open();
             SqlDataAdapter dataAdapter = new SqlDataAdapter("Select * from English", connection);
@@ -31,7 +31,7 @@ namespace GHSearchEngine
             return textTable;
         }
 
-        private static SqlConnectionStringBuilder buildSqlConnectioStringBuilder()
+        private static SqlConnectionStringBuilder BuildSqlConnectioStringBuilder()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = "localhost";

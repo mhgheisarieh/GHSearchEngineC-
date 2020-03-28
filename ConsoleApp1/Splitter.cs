@@ -9,7 +9,7 @@ namespace GHSearchEngine
     {
         public static String REGEX = "[\\s.,()/\"#;'\\\\\\-:$]+";
 
-        public static String[] split(string stringToParse)
+        public static String[] Split(string stringToParse)
         {
             return Regex.Split(stringToParse, @REGEX);
         }

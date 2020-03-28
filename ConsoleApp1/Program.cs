@@ -13,11 +13,11 @@ namespace GHSearchEngine
 
         static void Main(string[] args)
         {
-            DocumentHolder documentHolder = new DocumentHolder(new InputSelector().selectAndGetDataSource());
-            PreProcessedData.getInstance().setDetailsOfWordHashMap(PreProcessor.preProcess(documentHolder.getDocuments()));
+            DocumentHolder documentHolder = new DocumentHolder(new InputSelector().SelectAndGetDataSource());
+            PreProcessedData.GetInstance().SetDetailsOfWordHashMap(PreProcessor.PreProcess(documentHolder.GetDocuments()));
             IPrintable printer = new Printer();
             SearchEngine searchEngine = new SearchEngine(documentHolder, printer);
-            searchEngine.query();
+            searchEngine.Query();
         }
     }
 }

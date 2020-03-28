@@ -14,7 +14,7 @@ namespace GHSearchEngine
                 return 0;
             }
 
-            return - x.getScore().CompareTo(y.getScore());
+            return - x.GetScore().CompareTo(y.GetScore());
 
         }
     }

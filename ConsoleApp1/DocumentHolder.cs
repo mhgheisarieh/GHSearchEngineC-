@@ -13,7 +13,7 @@ namespace GHSearchEngine
             this.documents = documents;
         }
 
-        public List<String> getDocuments()
+        public List<String> GetDocuments()
         {
             return documents;
         }

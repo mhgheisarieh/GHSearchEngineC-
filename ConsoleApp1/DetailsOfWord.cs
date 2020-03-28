@@ -4,51 +4,51 @@ using System.Text;
 
 namespace GHSearchEngine
 {
-    /**
-     * contains a word and indexes of documents which has the word as key and number of rematches in values
-     */
+    /// <summary>
+    /// contains a word and indexes of documents which has the word as key and number of rematches in values
+    /// </summary>
 
     class DetailsOfWord
     {
         private String word;
 
-        /**
-         * A hash map to link indexes and numOfWords in doc
-         */
-        private Dictionary<int, int> numOfWordInDocs;
-        /**
-         * key: index of doc ; value: index of word in doc
-         */
-        private Dictionary<int, int> indexInDoc;
+        /// <value>
+        ///  A hash map to link indexes and numOfWords in doc
+        /// </value>
+        private Dictionary<int, int> NumOfWordInDocs;
+        /// <value>
+        /// key: index of doc ; value: index of word in doc
+        /// </value>
+        private Dictionary<int, int> IndexInDoc;
 
         public DetailsOfWord(String word)
         {
             this.word = word;
-            this.numOfWordInDocs = new Dictionary<int, int>();
-            this.indexInDoc = new Dictionary<int, int>();
+            this.NumOfWordInDocs = new Dictionary<int, int>();
+            this.IndexInDoc = new Dictionary<int, int>();
         }
 
-        public void addWordToDocIndex(int indexOfDoc)
+        public void AddWordToDocIndex(int indexOfDoc)
         {
-            if (numOfWordInDocs.ContainsKey(indexOfDoc))
-                this.numOfWordInDocs[indexOfDoc] =  this.numOfWordInDocs[indexOfDoc] + 1;
+            if (NumOfWordInDocs.ContainsKey(indexOfDoc))
+                this.NumOfWordInDocs[indexOfDoc] = this.NumOfWordInDocs[indexOfDoc] + 1;
             else
-                this.numOfWordInDocs[indexOfDoc] = 1;
+                this.NumOfWordInDocs[indexOfDoc] = 1;
         }
 
-        public void addIndexOfWordInDoc(int indexOfDoc, int indexOfWord)
+        public void AddIndexOfWordInDoc(int indexOfDoc, int indexOfWord)
         {
-            this.indexInDoc[indexOfDoc] =  indexOfWord;
+            this.IndexInDoc[indexOfDoc] = indexOfWord;
         }
 
-        public Dictionary<int, int> getNumOfWordInDocs()
+        public Dictionary<int, int> GetNumOfWordInDocs()
         {
-            return numOfWordInDocs;
+            return NumOfWordInDocs;
         }
 
-        public Dictionary<int, int> getIndexInDoc()
+        public Dictionary<int, int> GetIndexInDoc()
         {
-            return indexInDoc;
+            return IndexInDoc;
         }
     }
 }

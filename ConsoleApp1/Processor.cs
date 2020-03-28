@@ -14,16 +14,16 @@ namespace GHSearchEngine
             Console.WriteLine("GH Search Engine\nSearch Results:");
         }
 
-        internal List<Result> processQuery(string query)
+        internal List<Result> ProcessQuery(string query)
         {
-            String[] wordsToFind = extractQueryWords(query);
-            fillResults(wordsToFind);
-            setResultsScore(wordsToFind);
-            proximityFilter(wordsToFind);
-            return getSortedResult();
+            String[] wordsToFind = ExtractQueryWords(query);
+            FillResults(wordsToFind);
+            SetResultsScore(wordsToFind);
+            ProximityFilter(wordsToFind);
+            return GetSortedResult();
         }
 
-        private List<Result> getSortedResult()
+        private List<Result> GetSortedResult()
         {
             List<Result> result = new List<Result>(results.Values);
             ResultComparator resultComparator = new ResultComparator();
@@ -32,40 +32,40 @@ namespace GHSearchEngine
             return result;
         }
 
-        private String[] extractQueryWords(String query)
+        private String[] ExtractQueryWords(String query)
         {
-            return Splitter.split(query);
+            return Splitter.Split(query);
         }
 
-        private void fillResults(String[] wordsToFind)
+        private void FillResults(String[] wordsToFind)
         {
-            List<int> foundDocs = findAllMatches(wordsToFind);
+            List<int> foundDocs = FindAllMatches(wordsToFind);
             if (foundDocs != null)
                 foundDocs.ForEach(docIndex=>results.Add(docIndex, new Result(docIndex, 0)));
         }
 
-        private void setResultsScore(String[] wordsToFind)
+        private void SetResultsScore(String[] wordsToFind)
         {
             foreach (String word in wordsToFind)
             {
                 foreach (int docIndex in results.Keys)
                 {
-                    int score = PreProcessedData.getInstance().getDetailsOfWordHashMap()[word].getNumOfWordInDocs()[docIndex];
-                    results[docIndex].changeScore(score);
+                    int score = PreProcessedData.GetInstance().GetDetailsOfWordHashMap()[word].GetNumOfWordInDocs()[docIndex];
+                    results[docIndex].ChangeScore(score);
                 }
             }
         }
 
-        private void proximityFilter(String[] words)
+        private void ProximityFilter(String[] words)
         {
             List<int> toBeRemovedDocs = new List<int>();
-            Dictionary<String, DetailsOfWord> details = PreProcessedData.getInstance().getDetailsOfWordHashMap();
+            Dictionary<String, DetailsOfWord> details = PreProcessedData.GetInstance().GetDetailsOfWordHashMap();
             foreach (int docIndex in results.Keys)
             {
                 for (int i = 0; i < words.Length - 1; i++)
                 {
-                    int firstIndex = details[words[i]].getIndexInDoc()[docIndex];
-                    int secondIndex = details[words[i + 1]].getIndexInDoc()[docIndex];
+                    int firstIndex = details[words[i]].GetIndexInDoc()[docIndex];
+                    int secondIndex = details[words[i + 1]].GetIndexInDoc()[docIndex];
                     if (Math.Abs(firstIndex - secondIndex) > PROXIMITY_MAX_DISTANCE)
                     {
                         toBeRemovedDocs.Add(docIndex);
@@ -79,7 +79,7 @@ namespace GHSearchEngine
         }
 
 
-        private static List<int> retainArray(List<int> list_1, List<int> list_2)
+        private static List<int> RetainArray(List<int> list_1, List<int> list_2)
         {
             list_1.Sort();
             list_2.Sort();
@@ -100,29 +100,29 @@ namespace GHSearchEngine
             return retainArray;
         }
 
-        private List<int> findAllMatches(String[] wordsToFind)
+        private List<int> FindAllMatches(String[] wordsToFind)
         {
             List<int> foundDocIndexes = null;
             foreach (String word in wordsToFind)
             {
-                List<int> foundDocIndexesForWord = getFoundDocsIndexForWord(word);
+                List<int> foundDocIndexesForWord = GetFoundDocsIndexForWord(word);
                 if (foundDocIndexesForWord != null)
                 {
                     if (foundDocIndexes == null)
                         foundDocIndexes = new List<int>(foundDocIndexesForWord);
                     else
-                        foundDocIndexes = retainArray(foundDocIndexes, foundDocIndexesForWord);
+                        foundDocIndexes = RetainArray(foundDocIndexes, foundDocIndexesForWord);
                 }
             }
             return foundDocIndexes;
         }
 
-        private List<int> getFoundDocsIndexForWord(String word)
+        private List<int> GetFoundDocsIndexForWord(String word)
         {
-            if (PreProcessedData.getInstance().getDetailsOfWordHashMap().ContainsKey(word))
+            if (PreProcessedData.GetInstance().GetDetailsOfWordHashMap().ContainsKey(word))
             {
-                DetailsOfWord detailsOfWord = PreProcessedData.getInstance().getDetailsOfWordHashMap()[word];
-                return new List<int>(detailsOfWord.getNumOfWordInDocs().Keys);
+                DetailsOfWord detailsOfWord = PreProcessedData.GetInstance().GetDetailsOfWordHashMap()[word];
+                return new List<int>(detailsOfWord.GetNumOfWordInDocs().Keys);
             }
             else
                 return null;

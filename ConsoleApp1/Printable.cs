@@ -5,6 +5,6 @@ namespace GHSearchEngine
 {
     interface IPrintable
     {
-        void printResults(List<String> documents, List<Result> results);
+        void PrintResults(List<String> documents, List<Result> results);
     }
 }
