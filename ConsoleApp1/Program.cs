@@ -15,7 +15,9 @@ namespace GHSearchEngine
 
         static void Main(string[] args)
         {
-                        DocumentHolder documentHolder = new DocumentHolder(new CSVFileReader().readCSVFile(FILE_NAME));
+            SqlServerConnector sqlServerConnector = new SqlServerConnector();
+            sqlServerConnector.connectToServer();
+                        //DocumentHolder documentHolder = new DocumentHolder(new CSVFileReader().readCSVFile(FILE_NAME));
             /*            PreProcessedData.getInstance().setDetailsOfWordHashMap(PreProcessor.preProcess(documentHolder.getDocuments()));
                         IPrintable printer = new Printer();
                         SearchEngine searchEngine = new SearchEngine(documentHolder, printer);
