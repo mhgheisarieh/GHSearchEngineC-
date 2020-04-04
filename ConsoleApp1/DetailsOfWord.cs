@@ -38,13 +38,14 @@ namespace GHSearchEngine
 
         public void AddIndexOfWordInDoc(int indexOfDoc, int indexOfWord)
         {
-            if (IndexInDoc[indexOfDoc] != null)
+            if (IndexInDoc.ContainsKey(indexOfDoc))
             {
                 this.IndexInDoc[indexOfDoc].Add(indexOfWord);
             }
             else
             {
                 IndexInDoc[indexOfDoc] = new List<int>();
+                IndexInDoc[indexOfDoc].Add(indexOfWord);
             }
         }
 
@@ -53,7 +54,7 @@ namespace GHSearchEngine
             return NumOfWordInDocs;
         }
 
-        public private Dictionary<int, List<int>> GetIndexInDoc()
+        public Dictionary<int, List<int>> GetIndexesInDoc()
         {
             return IndexInDoc;
         }

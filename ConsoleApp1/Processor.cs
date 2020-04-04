@@ -64,9 +64,18 @@ namespace GHSearchEngine
             {
                 for (int i = 0; i < words.Length - 1; i++)
                 {
-                    int firstIndex = details[words[i]].GetIndexInDoc()[docIndex];
-                    int secondIndex = details[words[i + 1]].GetIndexInDoc()[docIndex];
-                    if (Math.Abs(firstIndex - secondIndex) > PROXIMITY_MAX_DISTANCE)
+                    List<int> firstIndexes = details[words[i]].GetIndexesInDoc()[docIndex];
+                    List<int> secondIndexes = details[words[i + 1]].GetIndexesInDoc()[docIndex];
+                    int minDistanceOfIndexes = int.MaxValue;
+                    foreach (int j in firstIndexes)
+                    {
+                        foreach(int k in secondIndexes)
+                        {
+                            if (minDistanceOfIndexes > Math.Abs(j - k))
+                                minDistanceOfIndexes = Math.Abs(j - k);
+                        }
+                    }
+                    if (minDistanceOfIndexes > PROXIMITY_MAX_DISTANCE)
                     {
                         toBeRemovedDocs.Add(docIndex);
                     }
