@@ -19,13 +19,13 @@ namespace GHSearchEngine
         /// <value>
         /// key: index of doc ; value: index of word in doc
         /// </value>
-        private Dictionary<int, int> IndexInDoc;
+        private Dictionary<int, List<int>> IndexInDoc;
 
         public DetailsOfWord(String word)
         {
             this.word = word;
             this.NumOfWordInDocs = new Dictionary<int, int>();
-            this.IndexInDoc = new Dictionary<int, int>();
+            this.IndexInDoc = new Dictionary<int, List<int>>();
         }
 
         public void AddWordToDocIndex(int indexOfDoc)
@@ -38,7 +38,14 @@ namespace GHSearchEngine
 
         public void AddIndexOfWordInDoc(int indexOfDoc, int indexOfWord)
         {
-            this.IndexInDoc[indexOfDoc] = indexOfWord;
+            if (IndexInDoc[indexOfDoc] != null)
+            {
+                this.IndexInDoc[indexOfDoc].Add(indexOfWord);
+            }
+            else
+            {
+                IndexInDoc[indexOfDoc] = new List<int>();
+            }
         }
 
         public Dictionary<int, int> GetNumOfWordInDocs()
@@ -46,7 +53,7 @@ namespace GHSearchEngine
             return NumOfWordInDocs;
         }
 
-        public Dictionary<int, int> GetIndexInDoc()
+        public private Dictionary<int, List<int>> GetIndexInDoc()
         {
             return IndexInDoc;
         }

@@ -14,7 +14,7 @@ namespace GHSearchEngine
             DataTable textTable = ExtractDataFromDatabase();
             foreach (DataRow row in textTable.Rows)
             {
-                documents.Add(row["\"Text\""].ToString());
+                documents.Add(row["Text"].ToString());
             }
             return documents;
         }
@@ -25,7 +25,7 @@ namespace GHSearchEngine
             SqlConnectionStringBuilder builder = BuildSqlConnectioStringBuilder();
             SqlConnection connection = new SqlConnection(builder.ConnectionString);
             connection.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("Select * from English", connection);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("Select * from Documents", connection);
             textTable = new DataTable();
             dataAdapter.Fill(textTable);
             return textTable;
@@ -37,7 +37,7 @@ namespace GHSearchEngine
             builder.DataSource = "localhost";
             builder.UserID = "sa";
             builder.Password = "root";
-            builder.InitialCatalog = "English_csv_3";
+            builder.InitialCatalog = "Documents";
             builder.IntegratedSecurity = true;
             return builder;
         }
