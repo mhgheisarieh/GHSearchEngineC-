@@ -37,7 +37,7 @@ namespace GHSearchEngine
             builder.DataSource = "localhost";
             builder.UserID = "sa";
             builder.Password = "root";
-            builder.InitialCatalog = "Documents";
+            builder.InitialCatalog = "GHSearchEngineDatabase";
             builder.IntegratedSecurity = true;
             return builder;
         }
