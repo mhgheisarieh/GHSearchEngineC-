@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace GHSearchEngine
 {
@@ -22,24 +21,11 @@ namespace GHSearchEngine
         private static DataTable ExtractDataFromDatabase()
         {
             DataTable textTable;
-            SqlConnectionStringBuilder builder = BuildSqlConnectioStringBuilder();
-            SqlConnection connection = new SqlConnection(builder.ConnectionString);
-            connection.Open();
+            SqlConnection connection = Connector.GetInstance().GetSqlConnection();
             SqlDataAdapter dataAdapter = new SqlDataAdapter("Select * from Documents", connection);
             textTable = new DataTable();
             dataAdapter.Fill(textTable);
             return textTable;
-        }
-
-        private static SqlConnectionStringBuilder BuildSqlConnectioStringBuilder()
-        {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "localhost";
-            builder.UserID = "sa";
-            builder.Password = "root";
-            builder.InitialCatalog = "GHSearchEngineDatabase";
-            builder.IntegratedSecurity = true;
-            return builder;
         }
     }
 }

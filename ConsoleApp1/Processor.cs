@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace GHSearchEngine
@@ -28,7 +30,7 @@ namespace GHSearchEngine
             List<Result> result = new List<Result>(results.Values);
             ResultComparator resultComparator = new ResultComparator();
             result.Sort(resultComparator);
-            
+
             return result;
         }
 
@@ -41,7 +43,7 @@ namespace GHSearchEngine
         {
             List<int> foundDocs = FindAllMatches(wordsToFind);
             if (foundDocs != null)
-                foundDocs.ForEach(docIndex=>results.Add(docIndex, new Result(docIndex, 0)));
+                foundDocs.ForEach(docIndex => results.Add(docIndex, new Result(docIndex, 0)));
         }
 
         private void SetResultsScore(String[] wordsToFind)
@@ -50,7 +52,15 @@ namespace GHSearchEngine
             {
                 foreach (int docIndex in results.Keys)
                 {
-                    int score = PreProcessedData.GetInstance().GetDetailsOfWordHashMap()[word].GetNumOfWordInDocs()[docIndex];
+                    String query = "SELECT NumOfWord FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex + 1).ToString();
+                    SqlConnection connection = Connector.GetInstance().GetSqlConnection();
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(query , connection);
+                    DataTable table = new DataTable();
+                    dataAdapter.Fill(table);
+                    List<int> scoreList = new List<int>();
+                    foreach (DataRow row in table.Rows)
+                        scoreList.Add(Int32.Parse(row["NumOfWord"].ToString()));
+                    int score = scoreList[0];
                     results[docIndex].ChangeScore(score);
                 }
             }
@@ -69,7 +79,7 @@ namespace GHSearchEngine
                     int minDistanceOfIndexes = int.MaxValue;
                     foreach (int j in firstIndexes)
                     {
-                        foreach(int k in secondIndexes)
+                        foreach (int k in secondIndexes)
                         {
                             if (minDistanceOfIndexes > Math.Abs(j - k))
                                 minDistanceOfIndexes = Math.Abs(j - k);
@@ -94,7 +104,7 @@ namespace GHSearchEngine
             list_2.Sort();
             int i = 0, j = 0;
             List<int> retainArray = new List<int>();
-            while(i < list_1.Count && j < list_2.Count)
+            while (i < list_1.Count && j < list_2.Count)
             {
                 if (list_1[i] < list_2[j])
                     i++;
@@ -130,8 +140,14 @@ namespace GHSearchEngine
         {
             if (PreProcessedData.GetInstance().GetDetailsOfWordHashMap().ContainsKey(word))
             {
-                DetailsOfWord detailsOfWord = PreProcessedData.GetInstance().GetDetailsOfWordHashMap()[word];
-                return new List<int>(detailsOfWord.GetNumOfWordInDocs().Keys);
+                SqlConnection connection = Connector.GetInstance().GetSqlConnection();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT DocIndex FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "'", connection);
+                DataTable textTable = new DataTable();
+                dataAdapter.Fill(textTable);
+                List<int> docsContainWord = new List<int>();
+                foreach (DataRow row in textTable.Rows)
+                    docsContainWord.Add(Int32.Parse(row["DocIndex"].ToString()) - 1);
+                return docsContainWord;
             }
             else
                 return null;

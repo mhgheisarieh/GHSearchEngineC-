@@ -19,9 +19,7 @@ namespace GHSearchEngine
 
         internal void InsertPrePreProcessedData(PreProcessedData preProcessedData)
         {
-            SqlConnectionStringBuilder builder = BuildSqlConnectioStringBuilder();
-            SqlConnection connection = new SqlConnection(builder.ConnectionString);
-            connection.Open();
+            SqlConnection connection = Connector.GetInstance().GetSqlConnection();
             String query;
             String indexes;
             SqlCommand command;
@@ -44,17 +42,6 @@ namespace GHSearchEngine
                     command.ExecuteNonQuery();
                 }
             }
-        }
-
-        private static SqlConnectionStringBuilder BuildSqlConnectioStringBuilder()
-        {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "localhost";
-            builder.UserID = "sa";
-            builder.Password = "root";
-            builder.InitialCatalog = "GHSearchEngineDatabase";
-            builder.IntegratedSecurity = true;
-            return builder;
         }
     }
 }
