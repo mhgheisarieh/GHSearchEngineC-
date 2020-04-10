@@ -35,7 +35,7 @@ namespace GHSearchEngine
                         indexes = indexes + index.ToString() + ",";
                     }
                     command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@Token", word);
+                    command.Parameters.AddWithValue("@Token", word.ToLowerInvariant());
                     command.Parameters.AddWithValue("@DocIndex", docNumAndIndexes.Key);
                     command.Parameters.AddWithValue("@Indexes", indexes);
                     command.Parameters.AddWithValue("@NumOfWord", node.Value.GetNumOfWordInDocs()[docNumAndIndexes.Key]);

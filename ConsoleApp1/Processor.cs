@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace GHSearchEngine
 {
@@ -52,16 +51,15 @@ namespace GHSearchEngine
             {
                 foreach (int docIndex in results.Keys)
                 {
-                    String query = "SELECT NumOfWord FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex + 1).ToString();
+                    String query = "SELECT NumOfWord FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex).ToString();
                     SqlConnection connection = Connector.GetInstance().GetSqlConnection();
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(query , connection);
                     DataTable table = new DataTable();
                     dataAdapter.Fill(table);
-                    List<int> scoreList = new List<int>();
-                    foreach (DataRow row in table.Rows)
-                        scoreList.Add(Int32.Parse(row["NumOfWord"].ToString()));
-                    int score = scoreList[0];
-                    results[docIndex].ChangeScore(score);
+                    if  (table.Rows.Count > 0) {
+                        int score = Int32.Parse(table.Rows[0]["NumOfWord"].ToString());
+                        results[docIndex].ChangeScore(score);
+                    }
                 }
             }
         }
@@ -74,8 +72,8 @@ namespace GHSearchEngine
             {
                 for (int i = 0; i < words.Length - 1; i++)
                 {
-                    List<int> firstIndexes = details[words[i]].GetIndexesInDoc()[docIndex];
-                    List<int> secondIndexes = details[words[i + 1]].GetIndexesInDoc()[docIndex];
+                    List<int> firstIndexes = getIndexsOfWordInDoc(words[i], docIndex);
+                    List<int> secondIndexes = getIndexsOfWordInDoc(words[i + 1], docIndex);
                     int minDistanceOfIndexes = int.MaxValue;
                     foreach (int j in firstIndexes)
                     {
@@ -97,6 +95,25 @@ namespace GHSearchEngine
             }
         }
 
+        private List<int> getIndexsOfWordInDoc(string word, int docIndex)
+        {
+            SqlConnection connection = Connector.GetInstance().GetSqlConnection();
+            String query = "SELECT Indexes FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex).ToString();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+            DataTable table = new DataTable();
+            dataAdapter.Fill(table);
+            List<int> indexes = new List<int>();
+            if (table.Rows.Count != 0) {
+                String indexesString = table.Rows[0]["Indexes"].ToString();
+                String[] indexesStringArray = Splitter.Split(indexesString);
+                foreach (String indexString in indexesStringArray)
+                {
+                    if (indexString != "")
+                        indexes.Add(Int32.Parse(indexString));
+                }
+            }
+            return indexes;
+        }
 
         private static List<int> RetainArray(List<int> list_1, List<int> list_2)
         {
@@ -125,7 +142,7 @@ namespace GHSearchEngine
             foreach (String word in wordsToFind)
             {
                 List<int> foundDocIndexesForWord = GetFoundDocsIndexForWord(word);
-                if (foundDocIndexesForWord != null)
+                if (foundDocIndexesForWord.Count != 0)
                 {
                     if (foundDocIndexes == null)
                         foundDocIndexes = new List<int>(foundDocIndexesForWord);
@@ -138,19 +155,14 @@ namespace GHSearchEngine
 
         private List<int> GetFoundDocsIndexForWord(String word)
         {
-            if (PreProcessedData.GetInstance().GetDetailsOfWordHashMap().ContainsKey(word))
-            {
                 SqlConnection connection = Connector.GetInstance().GetSqlConnection();
                 SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT DocIndex FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "'", connection);
-                DataTable textTable = new DataTable();
-                dataAdapter.Fill(textTable);
+                DataTable table = new DataTable();
+                dataAdapter.Fill(table);
                 List<int> docsContainWord = new List<int>();
-                foreach (DataRow row in textTable.Rows)
-                    docsContainWord.Add(Int32.Parse(row["DocIndex"].ToString()) - 1);
+                foreach (DataRow row in table.Rows)
+                    docsContainWord.Add(Int32.Parse(row["DocIndex"].ToString()));
                 return docsContainWord;
-            }
-            else
-                return null;
         }
 
     }

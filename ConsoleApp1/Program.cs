@@ -14,7 +14,7 @@ namespace GHSearchEngine
         static void Main(string[] args)
         {
             DocumentHolder documentHolder = new DocumentHolder(new InputSelector().SelectAndGetDataSource());
-            PreProcessedData.GetInstance().SetDetailsOfWordHashMap(PreProcessor.PreProcess(documentHolder.GetDocuments()));
+            //PreProcessedData.GetInstance().SetDetailsOfWordHashMap(PreProcessor.PreProcess(documentHolder.GetDocuments()));
             //DataBaseUpdater.GetInstance().InsertPrePreProcessedData(PreProcessedData.GetInstance());
             SearchEngine searchEngine = new SearchEngine(documentHolder, new Printer());
             searchEngine.Query();
