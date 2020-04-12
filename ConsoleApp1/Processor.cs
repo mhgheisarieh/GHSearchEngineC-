@@ -29,7 +29,6 @@ namespace GHSearchEngine
             List<Result> result = new List<Result>(results.Values);
             ResultComparator resultComparator = new ResultComparator();
             result.Sort(resultComparator);
-
             return result;
         }
 
@@ -51,9 +50,14 @@ namespace GHSearchEngine
             {
                 foreach (int docIndex in results.Keys)
                 {
-                    String query = "SELECT NumOfWord FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex).ToString();
+                    String query = "SELECT NumOfWord FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = @Token and  DocIndex = @DocIndex";
                     SqlConnection connection = Connector.GetInstance().GetSqlConnection();
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(query , connection);
+                    SqlCommand command = new SqlCommand(query ,connection);
+                    command.Parameters.AddWithValue("@Token" , word);
+                    command.Parameters.AddWithValue("@DocIndex", docIndex);
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter();
+                    dataAdapter.SelectCommand = command;
+                    command.ExecuteNonQuery();
                     DataTable table = new DataTable();
                     dataAdapter.Fill(table);
                     if  (table.Rows.Count > 0) {
@@ -97,9 +101,14 @@ namespace GHSearchEngine
 
         private List<int> getIndexsOfWordInDoc(string word, int docIndex)
         {
+            String query = "SELECT Indexes FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = @Token and  DocIndex = @DocIndex";
             SqlConnection connection = Connector.GetInstance().GetSqlConnection();
-            String query = "SELECT Indexes FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "' and  DocIndex = " + (docIndex).ToString();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Token", word);
+            command.Parameters.AddWithValue("@DocIndex", docIndex);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            dataAdapter.SelectCommand = command;
+            command.ExecuteNonQuery();
             DataTable table = new DataTable();
             dataAdapter.Fill(table);
             List<int> indexes = new List<int>();
@@ -155,14 +164,20 @@ namespace GHSearchEngine
 
         private List<int> GetFoundDocsIndexForWord(String word)
         {
-                SqlConnection connection = Connector.GetInstance().GetSqlConnection();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT DocIndex FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "'", connection);
-                DataTable table = new DataTable();
-                dataAdapter.Fill(table);
-                List<int> docsContainWord = new List<int>();
-                foreach (DataRow row in table.Rows)
-                    docsContainWord.Add(Int32.Parse(row["DocIndex"].ToString()));
-                return docsContainWord;
+            //SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT DocIndex FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = '" + word + "'", connection);
+            String query = "SELECT DocIndex FROM [GHSearchEngineDatabase].[dbo].[Tokens] WHERE Token = @Token";
+            SqlConnection connection = Connector.GetInstance().GetSqlConnection();
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Token", word);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter();
+            dataAdapter.SelectCommand = command;
+            command.ExecuteNonQuery();
+            DataTable table = new DataTable();
+            dataAdapter.Fill(table);
+            List<int> docsContainWord = new List<int>();
+            foreach (DataRow row in table.Rows)
+                docsContainWord.Add(Int32.Parse(row["DocIndex"].ToString()));
+            return docsContainWord;
         }
 
     }

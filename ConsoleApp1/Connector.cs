@@ -27,8 +27,6 @@ namespace GHSearchEngine
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = "localhost";
-            builder.UserID = "sa";
-            builder.Password = "root";
             builder.InitialCatalog = "GHSearchEngineDatabase";
             builder.IntegratedSecurity = true;
             return builder;
@@ -37,11 +35,6 @@ namespace GHSearchEngine
         public SqlConnection GetSqlConnection()
         {   
             return connection;
-        }
-
-        public void Close()
-        {
-            connection.Close();
         }
     }
 }
