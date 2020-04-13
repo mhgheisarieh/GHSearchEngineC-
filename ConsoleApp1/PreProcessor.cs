@@ -21,7 +21,7 @@ namespace GHSearchEngine
 
         private static void PreProcessDoc(String doc, int indexOfDoc, Dictionary<String, DetailsOfWord> detailsOfWordDictionary)
         {
-            String[] words = Splitter.Split(doc);
+            String[] words = Splitter.Split(doc.ToLower());
             int indexOfWord = 0;
             foreach (String word in words)
             {
